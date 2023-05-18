@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
-from functions import get_df_info
+from functions import get_df_info, getCorrelatedFeature
 import toml
 
 # 0) Prima del clone andando in alto a DX sul progetto git, premo fork e la creo
@@ -57,7 +57,7 @@ def main():
             #).fit_transform(df[numeric_cols])
 
             ##################################### SHOW THE DATAFRAME #####################################
-            st.header("Dataframe view")
+            st.header("Dataframe view -------------- {} x {}".format(df.shape[0], df.shape[1]))
             st.dataframe(df)
             #############################################################################################
             myPCA = 0
@@ -92,10 +92,23 @@ def main():
                     # Riga per visualizzare la tabella numerica di correlazione
                     # st.dataframe(df.corr())
                     # se la figura dovesse risultare piccola posso aumentare la figsize=(20,10) espressa in pollici
-                    fig, ax = plt.subplots(figsize=(20, 10))
-                    sns.heatmap(df[numeric_cols].corr(), annot=True, ax=ax)
-                    ax.set_title("Heatmap of correlation")
-                    st.pyplot(fig)
+                    corrmat = df[numeric_cols].corr()
+                    
+                    trashold = st.number_input("Enter the number of rows to be removed", 0.0, 1.0, 0.9, format="%.3f")
+                    col_selected = st.selectbox("INT64-FLOAT64 COLUMNS", numeric_cols)
+                    
+                    corr_value = getCorrelatedFeature(corrmat[col_selected],trashold)
+                    
+                    df_rid = df[corr_value.index]
+                    
+                    if df_rid.empty:
+                        st.warning("Reduce the trashold")
+                        
+                    else:
+                        fig, ax = plt.subplots(figsize=(20, 10))
+                        sns.heatmap(df_rid.corr(), annot=True, ax=ax)
+                        ax.set_title("Heatmap of correlation")
+                        st.pyplot(fig)
 
             if choose == "Box Plot":
 
