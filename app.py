@@ -94,8 +94,8 @@ def main():
                     # se la figura dovesse risultare piccola posso aumentare la figsize=(20,10) espressa in pollici
                     corrmat = df[numeric_cols].corr()
                     
-                    trashold = st.number_input("Enter the number of rows to be removed", 0.0, 1.0, 0.9, format="%.3f")
-                    col_selected = st.selectbox("INT64-FLOAT64 COLUMNS", numeric_cols)
+                    trashold = st.number_input("Select the value of the trashold", 0.0, 1.0, 0.9, format="%.2f")
+                    col_selected = st.selectbox("Select column target", numeric_cols)
                     
                     corr_value = getCorrelatedFeature(corrmat[col_selected],trashold)
                     
