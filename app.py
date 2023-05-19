@@ -62,9 +62,6 @@ def main():
             #############################################################################################
             myPCA = 0
 
-            # columns = st.sidebar.multiselect("Enter the columns name to fill NaN with 0", df.columns)
-            # st.header('Choose the operation:')
-
             choose = 0
 
             st.header("Operation Selector")
@@ -164,11 +161,7 @@ def main():
                                 annot=True, ax=ax)
                     ax.set_title("Weights that the PCA assigns to each component.")
                     st.pyplot(fig)
-
                     
-
-                    # posso selezionare solo le colonne di tipo numerico
-                    # numeric_cols = df.select_dtypes(include=['number'])
             
             numerics_cols = df1.select_dtypes(include=['int','float']).columns
             string_cols = df1.select_dtypes(include=['object']).columns
@@ -214,18 +207,6 @@ def main():
                         file_name= uploaded_file.name[:-5] + "_CLEANED" + ".xlsx",
                         mime="application/vnd.ms-excel")
                 
-                # buffer = BytesIO()
-                # with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
-                #     # Write each dataframe to a different worksheet.
-                #     df1.to_excel(writer, sheet_name='Sheet1', index=False)
-                #     # Close the Pandas Excel writer and output the Excel file to the buffer
-                #     writer.save()
-
-                #     download2 = st.sidebar.download_button(
-                #         label="Download data as Excel",
-                #         data=buffer,
-                #         file_name='large_df.xlsx',
-                #         mime='application/vnd.ms-excel')
 
 if __name__ == "__main__":
     main()
