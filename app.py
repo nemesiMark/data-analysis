@@ -106,6 +106,13 @@ def main():
                         sns.heatmap(df_rid.corr(), annot=True, ax=ax)
                         ax.set_title("Heatmap of correlation")
                         st.pyplot(fig)
+                        
+                        # elimino la colonna selezionata
+                        del df_rid[col_selected]
+                        
+                        text = "The correlation is between <span style='color:orange; font-weight:bold'>{}</span> and the list: <span style='color:orange; font-weight:bold'>{}</span>".format(col_selected, df_rid.columns.to_list())
+                        st.markdown(text, unsafe_allow_html=True)
+
 
             if choose == "Box Plot":
 
